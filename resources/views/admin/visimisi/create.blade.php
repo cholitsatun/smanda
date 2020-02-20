@@ -18,14 +18,14 @@
                                         <div class="review-content-section">
                                             <div class="input-group mg-b-pro-edt">
                                                 <span class="input-group-addon"><i class="icon nalika-user" aria-hidden="true"></i></span>
-                                                <input type="text" class="form-control" placeholder="Visi" name="visi">
+                                                <textarea name="visi" class="mytextarea" cols="auto" rows="5" placeholder="Visi" style="width:100%"></textarea>
                                             </div>
                                             @if ($errors->has('visi'))
                                                 <p style="color:red; margin-top:1em">{{$errors->first('visi')}}</p>
                                             @endif
                                             <div class="input-group mg-b-pro-edt">
                                                 <span class="input-group-addon"><i class="icon nalika-edit" aria-hidden="true"></i></span>
-                                                <input type="text" class="form-control" placeholder="Misi" name="misi">
+                                                <textarea name="misi" class="mytextarea" cols="auto" rows="5" placeholder="Misi" style="width:100%"></textarea>
                                             </div>
                                                 @if ($errors->has('misi'))
                                                     <p style="color:red; margin-top:1em">{{$errors->first('misi')}}</p>

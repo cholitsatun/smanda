@@ -2,8 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use Auth;
+use Closure;
+use App\Voter;
 
 class voterMiddleware
 {
@@ -17,13 +18,23 @@ class voterMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::guard('voter')->check()) {
-            if ($request->has('id') && $request->has('status') == 0) {
-                return redirect('/suara/home');
-            }
-            else {
+            // dd(Auth::guard('voter')->id());
+            $voter = Voter::find(Auth::guard('voter')->id());
+            // dd ($voter->status);
+            if ($voter->status == 1 ) {
                 return redirect('/suara/aftervote');
             }
+            return $next($request);
+            // else {
+            //     return $next($request);
+            // }   
+            // if ($request->has('id') && $request->has('status') == 0) {
+            //     return redirect('/suara/home');
+            // }
+            // else {
+            //     return redirect('/suara/aftervote');
+            // }
         }
-        abort(403);
+        return redirect('/loginvoter');
     }
 }

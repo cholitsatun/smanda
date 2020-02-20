@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Paslon extends Model
 {
-    protected $fillable = ['nama_ketos', 'nama_waketos', 'foto'];
+    protected $fillable = ['nama_ketos', 'nama_waketos', 'foto', 'paslon_id'];
 
     public function visimisi(){
         return $this->HasOne('App\Visimisi', 'paslon_id', 'id');

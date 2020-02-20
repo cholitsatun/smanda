@@ -16,16 +16,16 @@ Route::get('/koding', function () {
 //login admin
 Route::get('/login', 'LoginController@index')->middleware('guest');
 Route::post('/login', 'LoginController@post');
-Route::post('/logout', 'LoginController@logout');
+Route::post('/logout-admin', 'LoginController@logout');
 
 //login voter
 Route::get('/loginvoter', 'LoginVoterController@index')->middleware('guest');
 Route::post('/loginvoter', 'LoginVoterController@post');
 Route::post('/logout', 'LoginVoterController@logout');
 
+Route::get('/suara/aftervote', 'AfterVoteController@index');
 Route::group(['middleware' => 'voter'], function(){
     Route::get('/suara/home', 'SuaraController@index');
-    Route::get('/suara/aftervote', 'AfterVoteController@index');
     Route::get('/berhasil-submit', 'SubmitHasilVoteController@index');
     Route::post('/submit-hasil', 'SubmitHasilVoteController@vote');
 });

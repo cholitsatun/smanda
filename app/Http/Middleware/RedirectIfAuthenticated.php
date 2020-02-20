@@ -22,7 +22,7 @@ class RedirectIfAuthenticated
         }
         else if (Auth::guard('voter')->check()) {
     
-            return redirect('/voter');
+            return redirect('/suara/aftervote');
             
         }
     

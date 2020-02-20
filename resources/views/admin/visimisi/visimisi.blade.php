@@ -21,8 +21,8 @@
                                 @foreach ($c as $nomor=>$item)
                                 <tr>
                                 <td>{{$nomor+1}}</td>
-                                <td>{{$item->visi}}</td>
-                                <td>{{$item->misi}}</td>
+                                <td>{!! \Illuminate\Support\Str::words($item->visi, 10, '  ....') !!}</td>
+                                <td>{!! \Illuminate\Support\Str::words($item->misi, 10, '  ....') !!}</td>
                                 <td>{{$item->paslon->nama_ketos}}-{{$item->paslon->nama_waketos}}</td>
                                 <td>
                                     <a href="/admin/visimisis/{{$item->id}}/edit"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>

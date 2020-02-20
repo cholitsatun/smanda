@@ -14,12 +14,7 @@ class SuaraController extends Controller
         $paslon = Paslon::all();
         return view('suara.home', compact('visi', 'paslon'));
     }
-    public function calcList($id)
-{
-    $vm=Visimisi::find($id);
-    $vm = Visimisi::select( 'visi', 'misi')->where('id', $id)->get();
-    return Response::json($vm);
-}
+
 
 
 }

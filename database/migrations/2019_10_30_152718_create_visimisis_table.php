@@ -16,8 +16,8 @@ class CreateVisimisisTable extends Migration
         Schema::create('visimisis', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->string('visi');
-            $table->string('misi');
+            $table->text('visi');
+            $table->text('misi');
 
             //foreign key
             $table->unsignedInteger('paslon_id');

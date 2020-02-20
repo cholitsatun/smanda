@@ -20,7 +20,9 @@ class CreateVotersTable extends Migration
             $table->string('name');
             $table->string('class');
             $table->string('password');
+            $table->string('realpass');
             $table->boolean('status')->default(false);
+            
         });
     }
 

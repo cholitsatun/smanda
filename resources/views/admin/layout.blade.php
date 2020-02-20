@@ -62,6 +62,14 @@
     <!-- modernizr JS
 		============================================ -->
     <script src="/nalika/js/vendor/modernizr-2.8.3.min.js"></script>
+    {{-- Tiny MCE --}}
+    <script src="/js/tinymce/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+          selector: '.mytextarea',
+          content_css: '/phantom/assets/css/main.css'
+        });
+      </script>
 </head>
 
 <body>
@@ -144,7 +152,7 @@
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
                                                     
                                                         <li>
-                                                            <form action="/logout" method="POST">
+                                                            <form action="/logout-admin" method="POST">
                                                                 {{ csrf_field() }}
                                                                 <a href="javascript:;" onclick="parentNode.submit();"><span class="icon nalika-unlocked author-log-ic"></span> Log Out</a>
                                                             </form>

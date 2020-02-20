@@ -24,34 +24,9 @@
 				top: 0;
 				z-index: 5;
 			}
-			/* #popup {
-				width: 100%;
-				height: 100%;
-				position: fixed;
-				background: rgba(0,0,0,.7);
-				top: 0;
-				left: 0;
-				z-index: 9999;
-				visibility: hidden;
-			}
-			.window {
-				width: 80%;
-				height: 80%;
-				background: #fff;
-				border-radius: 10px;
-				position: relative;
-				padding: 10px;
-				text-align: center;
-				margin: 15% auto;
-			} */
 		</style>
 	</head>
 	<body class="is-preload">
-		{{-- <div id="popup">
-			<div class="window">
-				<p>lagi belajar nich</p>
-			</div>
-		</div> --}}
 		<!-- Wrapper -->
 			<div id="wrapper">
 
@@ -60,19 +35,19 @@
 						<div class="inner">
 
 							<!-- Logo -->
-								<img src="gambar/smanda.png" alt="logo" class="logo" style="width:200px; height:auto"/>
+								<img src="/gambar/smanda.png" alt="logo" class="logo" style="width:200px; height:auto"/>
 
 							<!-- Nav -->
 								<nav class="">
 									<ul>
-										<li><a href="#menu">Tutorial Vote</a>
-										<style>a:link { 
-											text-decoration: none; } 
-										</style></li>
+										
 										<li>
 											<form action="/logout" method="POST" style="display:inline">
 												{{ csrf_field() }}
-												<a href="javascript:;" onclick="parentNode.submit();"> Log Out</a>
+												<a href="javascript:;" onclick="parentNode.submit();">
+												<style>a:link { 
+													text-decoration: none; } 
+												</style> Log Out</a>
 											</form>
 										</li>
 									</ul>
@@ -89,7 +64,7 @@
 								<p>Sistem e-voting ini bertujuan untuk memudahkan dalam pemilihan ketua OSIS di SMA N 2 Pati</p>
 							
 							<section class="tiles">
-								@foreach ($paslon as $item)
+								@foreach ($paslon as $key => $item)
 									<article class="style1">
 										<span class="image">
 											<img src="/gambar/{{$item->foto}}" alt="" style="width: 100%; height: 300px;"/>
@@ -98,11 +73,11 @@
 											<h2 style="color:white">{{$item->nama_ketos}}-{{$item->nama_waketos}}</h2>
 											<div class="content">
 												<button data-toggle="modal" data-target="#myModal{{isset($item->visimisi) ? $item->visimisi->id : ""}}">Visi Misi</button>
-												<form action="/submit-hasil" style="display:inline" method="POST">
+												<form action="/submit-hasil" id="voteform_{{$key}}" style="display:inline" method="POST">
 													{{ csrf_field() }}
-													<input type="hidden" name="voter" value="10">
+													<input type="hidden" name="voter" value="{{Auth::guard('voter')->id()}}">
 													<input type="hidden" name="paslon" value="{{$item->id}}">
-													<button type="submit">Vote</button>
+													<button type="button" class="sbmt" data-toggle="modal" data-target="#myVote" data-key="{{$key}}">Vote</button>
 												</form>
 											</div>
 										</a>
@@ -121,9 +96,9 @@
 											<!-- Modal body -->
 											<div class="modal-body">
 												<h4>Visi</h4>
-												<p>{{isset($item->visimisi) ? $item->visimisi->visi : "TIDAK ADA VISI"}}</p>
+												<p>{!! isset($item->visimisi) ? $item->visimisi->visi : "TIDAK ADA VISI" !!}</p>
 												<h4>Misi</h4>
-												<p>{{isset($item->visimisi) ? $item->visimisi->misi : "TIDAK ADA MISI"}}</p>
+												<p>{!! isset($item->visimisi) ? $item->visimisi->misi : "TIDAK ADA MISI" !!}</p>
 											
 											</div>
 							
@@ -131,6 +106,26 @@
 										</div>
 									</div>
 									@endforeach
+									<div class="modal" id="myVote">
+										<div class="modal-dialog">
+											<div class="modal-content">
+									
+										
+									
+											<!-- Modal body -->
+											<div class="modal-body">
+												<h3>Are you sure?</h3>
+												
+											
+											</div>
+											<div class="modal-footer">
+												<button type="submit" class="vote">Yes</button>
+												<button type="button" data-dismiss="modal">Cancel</button>
+
+											</div>
+							
+										</div>
+										</div>
 							</section>
 						</div>
 					</div>
@@ -193,25 +188,31 @@
 	integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
 	crossorigin="anonymous"></script>
 	<script>
-		<div id="destination"></div>
-		$.ajax({
-         type:"GET",
+	// 	<div id="destination"></div>
+	// 	$.ajax({
+    //      type:"GET",
         
-         success : function(results) {
-             var $table = $('<table></table>');
-             $('#destination').html('');
+    //      success : function(results) {
+    //          var $table = $('<table></table>');
+    //          $('#destination').html('');
 
-             for(var i=0;i<=results.length;i++) {
-                 $table.append('<tr><td>Visi</td><td>'+results[i].visi+'</td></tr>');
-                 $table.append('<tr><td>Misi</td><td>'+results[i].misi+'</td></tr>');
-             }
-             $('#destination').append($table);
-         }
-    }); 
-	// $('#btnVisi').click(function() {
-	// 	var which = document.getElementById("popup");
-	// 	which.style.visibility = "visible";
-	// })
+    //          for(var i=0;i<=results.length;i++) {
+    //              $table.append('<tr><td>Visi</td><td>'+results[i].visi+'</td></tr>');
+    //              $table.append('<tr><td>Misi</td><td>'+results[i].misi+'</td></tr>');
+    //          }
+    //          $('#destination').append($table);
+    //      }
+    // });
+	$(document).ready(function(){
+		let key = null;
+		$('.sbmt').on('click', function(){
+			key = $(this).data('key');
+		})
+		
+		$(".vote").on('click', function(){
+			$('#voteform_'+key)[0].submit()
+		})
+	}) 
 	</script>
 	</body>
 </html>
